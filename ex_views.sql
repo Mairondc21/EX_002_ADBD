@@ -89,3 +89,26 @@ WHERE c.nome = 'Helena Carla';
 SELECT * FROM fornecedor_helena;
 
 # 14 Crie uma view que apresente qual o nome do fornecedor que fabrica as Camisas comercializadas pela loja
+CREATE VIEW fornecedores_camisas AS SELECT f.nome
+FROM fornecedores f
+INNER JOIN produtos p ON p.fk_id_fornecedor = f.idFornecedor
+WHERE p.descricao LIKE '%Camisa%';
+SELECT * FROM fornecedores_camisas;
+
+# 15 Crie uma view que apresente qual a quantidade em estoque do produto comprado pela Maria de Almeida
+CREATE VIEW estoque_maria_de_almeida AS SELECT c.nome, p.descricao,p.estoque
+FROM produtos p
+INNER JOIN itemsPedidos ip ON p.idProduto = ip.fk_id_Produto
+INNER JOIN pedidos pd ON ip.fk_id_Pedido = pd.idPedido
+INNER JOIN clientes c ON pd.fk_id_Cliente = c.idCliente
+WHERE c.nome = 'Maria de Almeida';
+SELECT * FROM estoque_maria_de_almeida;
+
+# 16 Crie uma view que apresente o total de produtos fabricados pela Marte Roupas
+CREATE VIEW total_roupas_marte AS SELECT SUM(p.estoque) AS Total
+FROM fornecedores f
+INNER JOIN produtos p ON p.fk_id_fornecedor = f.idFornecedor
+WHERE f.nome = 'Marte Roupas';
+SELECT * FROM total_roupas_marte;
+
+
